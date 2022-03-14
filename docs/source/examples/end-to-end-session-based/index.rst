@@ -16,4 +16,4 @@ This end-to-end example notebook is focuses on:
 .. toctree::
    :maxdepth: 1
 
-   End-to-end session-based with Yoochoose <end-to-end-session-based-with-Yoochoose>
+   End-to-end session-based with Yoochoose and TensorFlow <03-End-to-end-session-based-with-Yoochoose-TF.ipynb>
