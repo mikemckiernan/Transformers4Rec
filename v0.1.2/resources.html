@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Additional Resources &mdash; Transformers4Rec  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/mystnb.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -12,10 +14,15 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script >let toggleHintShow = 'Click to show';</script>
+        <script >let toggleHintHide = 'Click to hide';</script>
+        <script >let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing to Transformers4Rec" href="CONTRIBUTING.html" />
     <link rel="prev" title="merlin_standard_lib.utils package" href="api/merlin_standard_lib.utils.html" /> 
 </head>
 
@@ -34,21 +41,17 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="why_transformers4rec.html">Why Transformers4Rec?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model_definition.html">Model Architectures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="training_eval.html">Training and Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pipeline.html">End-to-end pipeline with NVIDIA Merlin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Example Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Additional Resources</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#transformers4rec-and-session-based-recommendation">Transformers4Rec and Session-based recommendation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#competitions">Competitions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#nvidia-merlin">NVIDIA Merlin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#supported-huggingface-architectures-and-pre-training-approaches">Supported HuggingFace architectures and pre-training approaches</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#other-resources">Other Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html">Contributing to Transformers4Rec</a></li>
 </ul>
 </li>
 </ul>
@@ -76,31 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="additional-resources">
+  <div class="tex2jax_ignore mathjax_ignore section" id="additional-resources">
 <h1>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline"></a></h1>
 <div class="section" id="transformers4rec-and-session-based-recommendation">
 <h2>Transformers4Rec and Session-based recommendation<a class="headerlink" href="#transformers4rec-and-session-based-recommendation" title="Permalink to this headline"></a></h2>
@@ -130,152 +109,135 @@
 <div class="section" id="supported-huggingface-architectures-and-pre-training-approaches">
 <h2>Supported HuggingFace architectures and pre-training approaches<a class="headerlink" href="#supported-huggingface-architectures-and-pre-training-approaches" title="Permalink to this headline"></a></h2>
 <p>Transformers4Rec supports the four following <a class="reference external" href="https://nvidia-merlin.github.io/Transformers4Rec/main/model_definition.html#sequence-masking">masking tasks</a>:</p>
-<table border="1" class="docutils">
+<table class="colwidths-auto docutils align-default">
 <thead>
-<tr>
-<th>Acronym</th>
-<th>Definition</th>
+<tr class="row-odd"><th class="head"><p>Acronym</p></th>
+<th class="head"><p>Definition</p></th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>CLM</td>
-<td>Causal Language Modeling</td>
+<tr class="row-even"><td><p>CLM</p></td>
+<td><p>Causal Language Modeling</p></td>
 </tr>
-<tr>
-<td>MLM</td>
-<td>Masked Language Modeling</td>
+<tr class="row-odd"><td><p>MLM</p></td>
+<td><p>Masked Language Modeling</p></td>
 </tr>
-<tr>
-<td>PLM</td>
-<td>Permutation Language Modeling</td>
+<tr class="row-even"><td><p>PLM</p></td>
+<td><p>Permutation Language Modeling</p></td>
 </tr>
-<tr>
-<td>RTD</td>
-<td>Replacement Token Detection</td>
+<tr class="row-odd"><td><p>RTD</p></td>
+<td><p>Replacement Token Detection</p></td>
 </tr>
 </tbody>
-</table><p>In Transformers4Rec, we decouple the pre-training approaches from transformers architectures and provide <code class="docutils literal notranslate"><span class="pre">TransformerBlock</span></code> module that links the config class of the transformer architecture to the masking task. Transformers4Rec also defines a <code class="docutils literal notranslate"><span class="pre">transformer_registry</span></code> including pre-defined <a class="reference external" href="https://nvidia-merlin.github.io/Transformers4Rec/main/api/transformers4rec.config.html#transformers4rec.config.transformer.T4RecConfig"><code class="docutils literal notranslate"><span class="pre">T4RecConfig</span></code></a> constructors that automatically set the arguments of the related HuggingFace Transformers’ configuration classes.
+</table>
+<p>In Transformers4Rec, we decouple the pre-training approaches from transformers architectures and provide <code class="docutils literal notranslate"><span class="pre">TransformerBlock</span></code> module that links the config class of the transformer architecture to the masking task. Transformers4Rec also defines a <code class="docutils literal notranslate"><span class="pre">transformer_registry</span></code> including pre-defined <a class="reference external" href="https://nvidia-merlin.github.io/Transformers4Rec/main/api/transformers4rec.config.html#transformers4rec.config.transformer.T4RecConfig"><code class="docutils literal notranslate"><span class="pre">T4RecConfig</span></code></a> constructors that automatically set the arguments of the related HuggingFace Transformers’ configuration classes.
 The table below represents the current supported architectures in Transformers4Rec and links them to the possible masking tasks. It also lists the pre-registered <code class="docutils literal notranslate"><span class="pre">T4RecConfig</span></code> classes in the column <code class="docutils literal notranslate"><span class="pre">Registered</span></code>.
 Tip: Registering HF Transformers config classes into Transformers4Rec is a good opportunity for your first contributions to the library ;)</p>
-<table border="1" class="docutils">
+<table class="colwidths-auto docutils align-default">
 <thead>
-<tr>
-<th>Model</th>
-<th>CLM</th>
-<th>MLM</th>
-<th>PLM</th>
-<th>RTD</th>
-<th>Registered</th>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>CLM</p></th>
+<th class="head"><p>MLM</p></th>
+<th class="head"><p>PLM</p></th>
+<th class="head"><p>RTD</p></th>
+<th class="head"><p>Registered</p></th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/albert.html#bertconfig">AlBERT</a></td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-<td>✅</td>
-<td>✅</td>
+<tr class="row-even"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/albert.html#bertconfig">AlBERT</a></p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/bert.html#bertconfig">BERT</a></td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-<td>✅</td>
-<td>✅</td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/bert.html#bertconfig">BERT</a></p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/convbert.html#convbertconfig">ConvBERT</a></td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
+<tr class="row-even"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/convbert.html#convbertconfig">ConvBERT</a></p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/deberta.html#debertaconfig">DeBERTa</a></td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/deberta.html#debertaconfig">DeBERTa</a></p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/distilbert.html#distilbertmodel">DistilBERT</a></td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
+<tr class="row-even"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/distilbert.html#distilbertmodel">DistilBERT</a></p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/gpt2.html#gpt2config">GPT-2</a></td>
-<td>✅</td>
-<td>❌</td>
-<td>❌</td>
-<td>❌</td>
-<td>✅</td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/gpt2.html#gpt2config">GPT-2</a></p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>❌</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/longformer.html#longformerconfig">Longformer</a></td>
-<td>✅</td>
-<td>✅</td>
-<td>❌</td>
-<td>❌</td>
-<td>✅</td>
+<tr class="row-even"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/longformer.html#longformerconfig">Longformer</a></p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/megatron_bert.html#megatronbertconfig">MegatronBert</a></td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/megatron_bert.html#megatronbertconfig">MegatronBert</a></p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/mpnet.html#mpnetconfig">MPNet</a></td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
+<tr class="row-even"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/mpnet.html#mpnetconfig">MPNet</a></p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/roberta.html#robertaconfig">RoBERTa</a></td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
-<td>✅</td>
-<td>✅</td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/roberta.html#robertaconfig">RoBERTa</a></p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/roformer.html#roformerconfig">RoFormer</a></td>
-<td>✅</td>
-<td>✅</td>
-<td>❌</td>
-<td>✅</td>
-<td>❌</td>
+<tr class="row-even"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/roformer.html#roformerconfig">RoFormer</a></p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/transformerxl.html#transfoxlconfig">Transformer-XL</a></td>
-<td>✅</td>
-<td>❌</td>
-<td>❌</td>
-<td>❌</td>
-<td>✅</td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/transformerxl.html#transfoxlconfig">Transformer-XL</a></p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+<td><p>❌</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
 </tr>
-<tr>
-<td><a href="https://huggingface.co/transformers/model_doc/xlnet.html#xlnetconfig">XLNet</a></td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
-<td>✅</td>
+<tr class="row-even"><td><p><a class="reference external" href="https://huggingface.co/transformers/model_doc/xlnet.html#xlnetconfig">XLNet</a></p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
 </tr>
 </tbody>
-</table><p><strong>Note</strong>: The following HF architectures will be supported in future release: <code class="docutils literal notranslate"><span class="pre">Reformer</span></code>, <code class="docutils literal notranslate"><span class="pre">Funnel</span> <span class="pre">Transformer</span></code>, <code class="docutils literal notranslate"><span class="pre">ELECTRA</span></code></p>
+</table>
+<p><strong>Note</strong>: The following HF architectures will be supported in future release: <code class="docutils literal notranslate"><span class="pre">Reformer</span></code>, <code class="docutils literal notranslate"><span class="pre">Funnel</span> <span class="pre">Transformer</span></code>, <code class="docutils literal notranslate"><span class="pre">ELECTRA</span></code></p>
 </div>
 <div class="section" id="other-resources">
 <h2>Other Resources<a class="headerlink" href="#other-resources" title="Permalink to this headline"></a></h2>
@@ -289,6 +251,8 @@ Tip: Registering HF Transformers config classes into Transformers4Rec is a good 
 </li>
 </ul>
 </div>
+<div class="toctree-wrapper compound">
+</div>
 </div>
 
 
@@ -296,6 +260,7 @@ Tip: Registering HF Transformers config classes into Transformers4Rec is a good 
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="api/merlin_standard_lib.utils.html" class="btn btn-neutral float-left" title="merlin_standard_lib.utils package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="CONTRIBUTING.html" class="btn btn-neutral float-right" title="Contributing to Transformers4Rec" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
