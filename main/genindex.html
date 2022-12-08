@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
       <link rel="stylesheet" href="_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="canonical" href="https://nvidia-merlin.github.io/Transformers4Rec/main/genindex.html" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -24,7 +26,14 @@
     <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+  <div class="banner">
+    <p class="banner">
+      Beginning in January 2023, versions for all NVIDIA Merlin projects
+      will change from semantic versioning like <code>4.0</code>
+      to calendar versioning like <code>23.01</code>.</p>
+  </div>
+
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
@@ -164,9 +173,13 @@
       <li><a href="api/transformers4rec.torch.html#transformers4rec.torch.masking.CausalLanguageModeling.apply_mask_to_inputs">apply_mask_to_inputs() (transformers4rec.torch.masking.CausalLanguageModeling method)</a>
 
       <ul>
+        <li><a href="api/transformers4rec.torch.html#transformers4rec.torch.masking.MaskedLanguageModeling.apply_mask_to_inputs">(transformers4rec.torch.masking.MaskedLanguageModeling method)</a>
+</li>
         <li><a href="api/transformers4rec.torch.html#transformers4rec.torch.masking.MaskSequence.apply_mask_to_inputs">(transformers4rec.torch.masking.MaskSequence method)</a>
 </li>
         <li><a href="api/transformers4rec.torch.utils.html#transformers4rec.torch.utils.torch_utils.MappingTransformerMasking.CausalLanguageModeling.apply_mask_to_inputs">(transformers4rec.torch.utils.torch_utils.MappingTransformerMasking.CausalLanguageModeling method)</a>
+</li>
+        <li><a href="api/transformers4rec.torch.utils.html#transformers4rec.torch.utils.torch_utils.MappingTransformerMasking.MaskedLanguageModeling.apply_mask_to_inputs">(transformers4rec.torch.utils.torch_utils.MappingTransformerMasking.MaskedLanguageModeling method)</a>
 </li>
       </ul></li>
       <li><a href="api/transformers4rec.torch.block.html#transformers4rec.torch.block.base.BlockBase.as_tabular">as_tabular() (transformers4rec.torch.block.base.BlockBase method)</a>
@@ -1209,7 +1222,7 @@
 </li>
       <li><a href="api/transformers4rec.utils.html#transformers4rec.utils.dependencies.is_gpu_dataloader_available">is_gpu_dataloader_available() (in module transformers4rec.utils.dependencies)</a>
 </li>
-      <li><a href="api/transformers4rec.utils.html#transformers4rec.utils.dependencies.is_nvtabular_available">is_nvtabular_available() (in module transformers4rec.utils.dependencies)</a>
+      <li><a href="api/transformers4rec.utils.html#transformers4rec.utils.dependencies.is_merlin_dataloader_available">is_merlin_dataloader_available() (in module transformers4rec.utils.dependencies)</a>
 </li>
       <li><a href="api/transformers4rec.utils.html#transformers4rec.utils.dependencies.is_pyarrow_available">is_pyarrow_available() (in module transformers4rec.utils.dependencies)</a>
 </li>
@@ -2430,12 +2443,6 @@
 </li>
       <li><a href="api/transformers4rec.torch.html#transformers4rec.torch.PredictionTask.to_head">to_head() (transformers4rec.torch.PredictionTask method)</a>
 </li>
-      <li><a href="api/transformers4rec.config.html#transformers4rec.config.transformer.T4RecConfig.to_huggingface_tf_model">to_huggingface_tf_model() (transformers4rec.config.transformer.T4RecConfig method)</a>
-
-      <ul>
-        <li><a href="api/transformers4rec.torch.html#transformers4rec.torch.T4RecConfig.to_huggingface_tf_model">(transformers4rec.torch.T4RecConfig method)</a>
-</li>
-      </ul></li>
       <li><a href="api/transformers4rec.config.html#transformers4rec.config.transformer.T4RecConfig.to_huggingface_torch_model">to_huggingface_torch_model() (transformers4rec.config.transformer.T4RecConfig method)</a>
 
       <ul>
@@ -2470,12 +2477,6 @@
         <li><a href="api/merlin_standard_lib.schema.html#merlin_standard_lib.schema.schema.Schema.to_proto_text">(merlin_standard_lib.schema.schema.Schema method)</a>
 </li>
         <li><a href="api/transformers4rec.torch.html#transformers4rec.torch.Schema.to_proto_text">(transformers4rec.torch.Schema method)</a>
-</li>
-      </ul></li>
-      <li><a href="api/transformers4rec.config.html#transformers4rec.config.transformer.T4RecConfig.to_tf_model">to_tf_model() (transformers4rec.config.transformer.T4RecConfig method)</a>
-
-      <ul>
-        <li><a href="api/transformers4rec.torch.html#transformers4rec.torch.T4RecConfig.to_tf_model">(transformers4rec.torch.T4RecConfig method)</a>
 </li>
       </ul></li>
       <li><a href="api/transformers4rec.config.html#transformers4rec.config.transformer.T4RecConfig.to_torch_model">to_torch_model() (transformers4rec.config.transformer.T4RecConfig method)</a>
@@ -3047,7 +3048,18 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVJ1Y1YJHK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NVJ1Y1YJHK', {
+          'anonymize_ip': false,
+      });
+    </script> 
 
 </body>
 </html>

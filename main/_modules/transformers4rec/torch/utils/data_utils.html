@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/togglebutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="canonical" href="https://nvidia-merlin.github.io/Transformers4Rec/main/_modules/transformers4rec/torch/utils/data_utils.html" />
   <!--[if lt IE 9]>
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -24,7 +26,14 @@
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+  <div class="banner">
+    <p class="banner">
+      Beginning in January 2023, versions for all NVIDIA Merlin projects
+      will change from semantic versioning like <code>4.0</code>
+      to calendar versioning like <code>23.01</code>.</p>
+  </div>
+
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
@@ -250,17 +259,21 @@
 
 
 <span class="k">if</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">is_gpu_dataloader_available</span><span class="p">():</span>
-    <span class="kn">from</span> <span class="nn">nvtabular.loader.torch</span> <span class="kn">import</span> <span class="n">DLDataLoader</span>
-    <span class="kn">from</span> <span class="nn">nvtabular.loader.torch</span> <span class="kn">import</span> <span class="n">TorchAsyncItr</span> <span class="k">as</span> <span class="n">DataLoader</span>
+    <span class="kn">import</span> <span class="nn">torch</span>
+    <span class="kn">from</span> <span class="nn">merlin.dataloader.torch</span> <span class="kn">import</span> <span class="n">Loader</span>
+    <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 
-    <span class="kn">from</span> <span class="nn">merlin_standard_lib.utils.misc_utils</span> <span class="kn">import</span> <span class="n">validate_dataset</span>
+    <span class="kn">from</span> <span class="nn">merlin_standard_lib.utils.misc_utils</span> <span class="kn">import</span> <span class="n">_augment_schema</span><span class="p">,</span> <span class="n">validate_dataset</span>
 
-    <span class="k">class</span> <span class="nc">DLDataLoaderWrapper</span><span class="p">(</span><span class="n">DLDataLoader</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">DLDataLoader</span><span class="p">(</span><span class="n">DataLoader</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This class is an extension of the torch dataloader.</span>
+<span class="sd">        It is required to support the FastAI framework.</span>
+
 <span class="sd">        Setting the batch size directly to DLDataLoader makes it 3x slower.</span>
 <span class="sd">        So we set as an alternative attribute and use it within</span>
 <span class="sd">        T4Rec Trainer during evaluation</span>
-<span class="sd">        # TODO : run experiments with new nvt dataloader</span>
+<span class="sd">        # TODO : run experiments with new merlin-dataloader</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -268,8 +281,17 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;batch_size&quot;</span><span class="p">)</span>
                 <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="nd">@dataloader_registry</span><span class="o">.</span><span class="n">register_with_multiple_names</span><span class="p">(</span><span class="s2">&quot;nvtabular_dataloader&quot;</span><span class="p">,</span> <span class="s2">&quot;nvtabular&quot;</span><span class="p">)</span>
-    <span class="k">class</span> <span class="nc">NVTabularDataLoader</span><span class="p">(</span><span class="n">T4RecDataLoader</span><span class="p">,</span> <span class="n">DLDataLoaderWrapper</span><span class="p">):</span>
+        <span class="nd">@property</span>
+        <span class="k">def</span> <span class="nf">device</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+
+    <span class="nd">@dataloader_registry</span><span class="o">.</span><span class="n">register_with_multiple_names</span><span class="p">(</span>
+        <span class="s2">&quot;merlin_dataloader&quot;</span><span class="p">,</span> <span class="s2">&quot;merlin&quot;</span><span class="p">,</span> <span class="s2">&quot;nvtabular_dataloader&quot;</span><span class="p">,</span> <span class="s2">&quot;nvtabular&quot;</span>
+    <span class="p">)</span>
+    <span class="k">class</span> <span class="nc">MerlinDataLoader</span><span class="p">(</span><span class="n">T4RecDataLoader</span><span class="p">,</span> <span class="n">DLDataLoader</span><span class="p">):</span>
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">paths_or_dataset</span><span class="p">,</span>
@@ -305,6 +327,10 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">set_dataset</span><span class="p">(</span><span class="n">buffer_size</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">reader_kwargs</span><span class="p">)</span>
 
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">_augment_schema</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">schema</span><span class="p">,</span> <span class="n">cats</span><span class="p">,</span> <span class="n">conts</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">sparse_names</span><span class="p">,</span> <span class="n">sparse_max</span><span class="p">,</span> <span class="n">sparse_as_dense</span>
+            <span class="p">)</span>
+
             <span class="k">if</span> <span class="p">(</span><span class="n">global_rank</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">npartitions</span> <span class="o">&lt;</span> <span class="n">global_size</span><span class="p">):</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                     <span class="s2">&quot;UserWarning: User is advised to repartition the parquet file before training &quot;</span>
@@ -314,11 +340,8 @@
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">repartition</span><span class="p">(</span><span class="n">npartitions</span><span class="o">=</span><span class="n">global_size</span><span class="p">)</span>
 
-            <span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span>
-                <span class="n">cats</span><span class="p">,</span>
-                <span class="n">conts</span><span class="p">,</span>
-                <span class="n">labels</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
                 <span class="n">shuffle</span><span class="p">,</span>
                 <span class="n">seed_fn</span><span class="o">=</span><span class="n">seed_fn</span><span class="p">,</span>
@@ -327,12 +350,9 @@
                 <span class="n">global_size</span><span class="o">=</span><span class="n">global_size</span><span class="p">,</span>
                 <span class="n">global_rank</span><span class="o">=</span><span class="n">global_rank</span><span class="p">,</span>
                 <span class="n">drop_last</span><span class="o">=</span><span class="n">drop_last</span><span class="p">,</span>
-                <span class="n">sparse_names</span><span class="o">=</span><span class="n">sparse_names</span><span class="p">,</span>
-                <span class="n">sparse_max</span><span class="o">=</span><span class="n">sparse_max</span><span class="p">,</span>
-                <span class="n">sparse_as_dense</span><span class="o">=</span><span class="n">sparse_as_dense</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="n">DLDataLoaderWrapper</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">DLDataLoader</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
                 <span class="bp">self</span><span class="p">,</span>
                 <span class="n">loader</span><span class="p">,</span>
                 <span class="n">collate_fn</span><span class="o">=</span><span class="n">collate_fn</span><span class="p">,</span>
@@ -373,7 +393,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">               Instantitates ``NVTabularDataLoader`` from a ``DatasetSchema``.</span>
+<span class="sd">               Instantitates `MerlinDataLoader` from a ``DatasetSchema``.</span>
 <span class="sd">            Parameters</span>
 <span class="sd">            ----------</span>
 <span class="sd">                schema: DatasetSchema</span>
@@ -392,10 +412,10 @@
                 <span class="n">continuous_features</span> <span class="ow">or</span> <span class="n">schema</span><span class="o">.</span><span class="n">select_by_tag</span><span class="p">(</span><span class="n">Tag</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">)</span><span class="o">.</span><span class="n">column_names</span>
             <span class="p">)</span>
             <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span> <span class="ow">or</span> <span class="n">schema</span><span class="o">.</span><span class="n">select_by_tag</span><span class="p">(</span><span class="n">Tag</span><span class="o">.</span><span class="n">TARGETS</span><span class="p">)</span><span class="o">.</span><span class="n">column_names</span>
-
+            <span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">select_by_name</span><span class="p">(</span><span class="n">categorical_features</span> <span class="o">+</span> <span class="n">continuous_features</span> <span class="o">+</span> <span class="n">targets</span><span class="p">)</span>
             <span class="n">sparse_names</span> <span class="o">=</span> <span class="n">sparse_names</span> <span class="ow">or</span> <span class="n">schema</span><span class="o">.</span><span class="n">select_by_tag</span><span class="p">(</span><span class="n">Tag</span><span class="o">.</span><span class="n">LIST</span><span class="p">)</span><span class="o">.</span><span class="n">column_names</span>
             <span class="n">sparse_max</span> <span class="o">=</span> <span class="n">sparse_max</span> <span class="ow">or</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">max_sequence_length</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sparse_names</span><span class="p">}</span>
-            <span class="n">nvt_loader</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
                 <span class="n">paths_or_dataset</span><span class="p">,</span>
                 <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
                 <span class="n">max_sequence_length</span><span class="o">=</span><span class="n">max_sequence_length</span><span class="p">,</span>
@@ -413,7 +433,7 @@
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="k">return</span> <span class="n">nvt_loader</span>
+            <span class="k">return</span> <span class="n">loader</span>
 
 
 <div class="viewcode-block" id="ParquetDataset"><a class="viewcode-back" href="../../../../api/transformers4rec.torch.utils.html#transformers4rec.torch.utils.data_utils.ParquetDataset">[docs]</a><span class="k">class</span> <span class="nc">ParquetDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
@@ -506,7 +526,18 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVJ1Y1YJHK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NVJ1Y1YJHK', {
+          'anonymize_ip': false,
+      });
+    </script> 
 
 </body>
 </html>

@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
       <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="canonical" href="https://nvidia-merlin.github.io/Transformers4Rec/main/api/transformers4rec.torch.html" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -26,7 +28,14 @@
     <link rel="prev" title="transformers4rec.tf.utils package" href="transformers4rec.tf.utils.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+  <div class="banner">
+    <p class="banner">
+      Beginning in January 2023, versions for all NVIDIA Merlin projects
+      will change from semantic versioning like <code>4.0</code>
+      to calendar versioning like <code>23.01</code>.</p>
+  </div>
+
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
@@ -533,7 +542,7 @@ including (session-based and sequtial recommendation)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<a class="reference internal" href="transformers4rec.tf.html#transformers4rec.tf.Model" title="transformers4rec.tf.Model"><em>Model</em></a>) – The Model defined using Transformers4Rec api.</p></li>
+<li><p><strong>model</strong> (<a class="reference internal" href="#transformers4rec.torch.Model" title="transformers4rec.torch.Model"><em>Model</em></a>) – The Model defined using Transformers4Rec api.</p></li>
 <li><p><strong>args</strong> (<a class="reference internal" href="transformers4rec.config.html#transformers4rec.config.trainer.T4RecTrainingArguments" title="transformers4rec.config.trainer.T4RecTrainingArguments"><em>T4RecTrainingArguments</em></a>) – The training arguments needed to setup training and evaluation
 experiments.</p></li>
 <li><p><strong>schema</strong> (<em>Optional</em><em>[</em><em>Dataset.schema</em><em>]</em><em>, </em><em>optional</em>) – The schema object including features to use and their properties.
@@ -665,7 +674,7 @@ with resume_from_checkpoint argument for a complete load)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>checkpoint_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Path to the checkpoint directory.</p></li>
-<li><p><strong>model</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="transformers4rec.tf.html#transformers4rec.tf.Model" title="transformers4rec.tf.Model"><em>Model</em></a><em>]</em>) – Model class used by Trainer. by default None</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#transformers4rec.torch.Model" title="transformers4rec.torch.Model"><em>Model</em></a><em>]</em>) – Model class used by Trainer. by default None</p></li>
 </ul>
 </dd>
 </dl>
@@ -1657,7 +1666,7 @@ categorical &amp; text.</p>
 <li><p><strong>categorical_module</strong> (<a class="reference internal" href="#transformers4rec.torch.TabularModule" title="transformers4rec.torch.TabularModule"><em>TabularModule</em></a><em>, </em><em>optional</em>) – Module used to process categorical features.</p></li>
 <li><p><strong>text_embedding_module</strong> (<a class="reference internal" href="#transformers4rec.torch.TabularModule" title="transformers4rec.torch.TabularModule"><em>TabularModule</em></a><em>, </em><em>optional</em>) – Module used to process text features.</p></li>
 <li><p><strong>projection_module</strong> (<em>BlockOrModule</em><em>, </em><em>optional</em>) – Module that’s used to project the output of this module, typically done by an MLPBlock.</p></li>
-<li><p><strong>masking</strong> (<a class="reference internal" href="transformers4rec.tf.html#transformers4rec.tf.masking.MaskSequence" title="transformers4rec.tf.masking.MaskSequence"><em>MaskSequence</em></a><em>, </em><em>optional</em>) – Masking to apply to the inputs.</p></li>
+<li><p><strong>masking</strong> (<a class="reference internal" href="#transformers4rec.torch.masking.MaskSequence" title="transformers4rec.torch.masking.MaskSequence"><em>MaskSequence</em></a><em>, </em><em>optional</em>) – Masking to apply to the inputs.</p></li>
 <li><p><strong>pre</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="#transformers4rec.torch.TabularTransformation" title="transformers4rec.torch.TabularTransformation"><em>TabularTransformation</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><em>List</em><em>[</em><a class="reference internal" href="#transformers4rec.torch.TabularTransformation" title="transformers4rec.torch.TabularTransformation"><em>TabularTransformation</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – Transformations to apply on the inputs when the module is called (so <strong>before</strong> <cite>forward</cite>).</p></li>
 <li><p><strong>post</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="#transformers4rec.torch.TabularTransformation" title="transformers4rec.torch.TabularTransformation"><em>TabularTransformation</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><em>List</em><em>[</em><a class="reference internal" href="#transformers4rec.torch.TabularTransformation" title="transformers4rec.torch.TabularTransformation"><em>TabularTransformation</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – Transformations to apply on the inputs after the module is called (so <strong>after</strong> <cite>forward</cite>).</p></li>
 <li><p><strong>aggregation</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="#transformers4rec.torch.TabularAggregation" title="transformers4rec.torch.TabularAggregation"><em>TabularAggregation</em></a><em>]</em><em>, </em><em>optional</em>) – Aggregation to apply after processing the <cite>forward</cite>-method to output a single Tensor.</p></li>
@@ -1691,7 +1700,7 @@ continuous features, by default False</p></li>
 by default None</p></li>
 <li><p><strong>d_output</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – If set, init a MLPBlock as projection module to project embeddings vectors,
 by default None</p></li>
-<li><p><strong>masking</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="transformers4rec.tf.html#transformers4rec.tf.masking.MaskSequence" title="transformers4rec.tf.masking.MaskSequence"><em>MaskSequence</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – If set, Apply masking to the input embeddings and compute masked labels, It requires
+<li><p><strong>masking</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="#transformers4rec.torch.masking.MaskSequence" title="transformers4rec.torch.masking.MaskSequence"><em>MaskSequence</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – If set, Apply masking to the input embeddings and compute masked labels, It requires
 a categorical_module including an item_id column, by default None</p></li>
 </ul>
 </dd>
@@ -2868,7 +2877,18 @@ possible values are <cite>none</cite> | <cite>sum</cite> | <cite>mean</cite></p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVJ1Y1YJHK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NVJ1Y1YJHK', {
+          'anonymize_ip': false,
+      });
+    </script> 
 
 </body>
 </html>
