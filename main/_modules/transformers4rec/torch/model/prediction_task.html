@@ -54,7 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../why_transformers4rec.html">Why Transformers4Rec?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../model_definition.html">Model Architectures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../training_eval.html">Training and Evaluation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../pipeline.html">End-to-end pipeline with NVIDIA Merlin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pipeline.html">End-to-End Pipeline with Hugging Face Transformers and NVIDIA Merlin</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../multi_gpu_train.html">Multi-GPU data-parallel training using the <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../examples/index.html">Example Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api/modules.html">API Documentation</a></li>
@@ -134,9 +134,9 @@
 <div class="viewcode-block" id="BinaryClassificationTask"><a class="viewcode-back" href="../../../../api/transformers4rec.torch.model.html#transformers4rec.torch.BinaryClassificationTask">[docs]</a><span class="k">class</span> <span class="nc">BinaryClassificationTask</span><span class="p">(</span><span class="n">PredictionTask</span><span class="p">):</span>
     <span class="n">DEFAULT_LOSS</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>
     <span class="n">DEFAULT_METRICS</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">tm</span><span class="o">.</span><span class="n">Precision</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-        <span class="n">tm</span><span class="o">.</span><span class="n">Recall</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-        <span class="n">tm</span><span class="o">.</span><span class="n">Accuracy</span><span class="p">(),</span>
+        <span class="n">tm</span><span class="o">.</span><span class="n">Precision</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary&quot;</span><span class="p">),</span>
+        <span class="n">tm</span><span class="o">.</span><span class="n">Recall</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary&quot;</span><span class="p">),</span>
+        <span class="n">tm</span><span class="o">.</span><span class="n">Accuracy</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s2">&quot;binary&quot;</span><span class="p">),</span>
         <span class="c1"># TODO: Fix this: tm.AUC()</span>
     <span class="p">)</span>
 
