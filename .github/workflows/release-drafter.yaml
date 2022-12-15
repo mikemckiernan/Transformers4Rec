@@ -2,7 +2,9 @@ name: release-drafter
 
 on:
   push:
-    # trigger on tags only
+    # trigger on tags and release branches only
+    branches:
+      - release-*
     tags:
       - v*
 
