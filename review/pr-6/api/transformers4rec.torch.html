@@ -2457,15 +2457,44 @@ name the module should have.</p></li>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">transformers4rec.torch.model.base.PredictionTask</span></code></p>
 <p>Returns a <code class="docutils literal notranslate"><span class="pre">PredictionTask</span></code> for binary classification.</p>
 <p>Example usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">BinaryClassificationTask</span><span class="p">(</span>
-    <span class="s2">&quot;click&quot;</span><span class="p">,</span>
-    <span class="n">summary_type</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
-    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">tm</span><span class="o">.</span><span class="n">Precision</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">),</span>
-        <span class="n">tm</span><span class="o">.</span><span class="n">Recall</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">),</span>
-        <span class="n">tm</span><span class="o">.</span><span class="n">Accuracy</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">),</span>
-        <span class="n">tm</span><span class="o">.</span><span class="n">F1Score</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">)</span>
-    <span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the input module to process the tabular input features.</span>
+<span class="n">input_module</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">TabularSequenceFeatures</span><span class="o">.</span><span class="n">from_schema</span><span class="p">(</span>
+    <span class="n">schema</span><span class="p">,</span>
+    <span class="n">max_sequence_length</span><span class="o">=</span><span class="n">max_sequence_length</span><span class="p">,</span>
+    <span class="n">continuous_projection</span><span class="o">=</span><span class="n">d_model</span><span class="p">,</span>
+    <span class="n">aggregation</span><span class="o">=</span><span class="s2">&quot;concat&quot;</span><span class="p">,</span>
+    <span class="n">masking</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Define XLNetConfig class and set default parameters for HF XLNet config.</span>
+<span class="n">transformer_config</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">XLNetConfig</span><span class="o">.</span><span class="n">build</span><span class="p">(</span>
+    <span class="n">d_model</span><span class="o">=</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_layer</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">total_seq_length</span><span class="o">=</span><span class="n">max_sequence_length</span>
+<span class="p">)</span>
+
+<span class="c1"># Define the model block including: inputs, masking, projection and transformer block.</span>
+<span class="n">body</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">SequentialBlock</span><span class="p">(</span>
+    <span class="n">input_module</span><span class="p">,</span>
+    <span class="n">tr</span><span class="o">.</span><span class="n">MLPBlock</span><span class="p">([</span><span class="mi">64</span><span class="p">]),</span>
+    <span class="n">tr</span><span class="o">.</span><span class="n">TransformerBlock</span><span class="p">(</span>
+        <span class="n">transformer_config</span><span class="p">,</span>
+        <span class="n">masking</span><span class="o">=</span><span class="n">input_module</span><span class="o">.</span><span class="n">masking</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Define a head with BinaryClassificationTask.</span>
+<span class="n">head</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">Head</span><span class="p">(</span>
+    <span class="n">body</span><span class="p">,</span>
+    <span class="n">tr</span><span class="o">.</span><span class="n">BinaryClassificationTask</span><span class="p">(</span>
+        <span class="s2">&quot;click&quot;</span><span class="p">,</span>
+        <span class="n">summary_type</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">tm</span><span class="o">.</span><span class="n">Precision</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">),</span>
+            <span class="n">tm</span><span class="o">.</span><span class="n">Recall</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">),</span>
+            <span class="n">tm</span><span class="o">.</span><span class="n">Accuracy</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">),</span>
+            <span class="n">tm</span><span class="o">.</span><span class="n">F1Score</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="n">input_module</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>

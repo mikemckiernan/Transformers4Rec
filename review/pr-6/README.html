@@ -200,9 +200,11 @@ class because it merges context features with sequential features.</p>
 </pre></div>
 </div>
 <blockquote>
-<div><p>The preceding code can be modified to perform binary classification.
+<div><p>You can modify the preceding code to perform binary classification.
+The masking in the input module can be set to <code class="docutils literal notranslate"><span class="pre">None</span></code> instead of <code class="docutils literal notranslate"><span class="pre">causal</span></code>.
 When you define the head, you can replace the <code class="docutils literal notranslate"><span class="pre">NextItemPredictionTask</span></code>
-with an instance of <a class="reference external" href="https://nvidia-merlin.github.io/Transformers4Rec/main/api/transformers4rec.torch.html#transformers4rec.torch.BinaryClassificationTask"><code class="docutils literal notranslate"><span class="pre">BinaryClassificationTask</span></code></a>.</p>
+with an instance of <code class="docutils literal notranslate"><span class="pre">BinaryClassificationTask</span></code>.
+See the sample code in the <a class="reference external" href="https://nvidia-merlin.github.io/Transformers4Rec/main/api/transformers4rec.torch.html#transformers4rec.torch.BinaryClassificationTask">API documentation for the class</a>.</p>
 </div></blockquote>
 </div>
 <div class="section" id="installation">

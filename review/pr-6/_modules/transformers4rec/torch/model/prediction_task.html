@@ -136,15 +136,44 @@
 
 <span class="sd">    Example usage::</span>
 
-<span class="sd">        tr.BinaryClassificationTask(</span>
-<span class="sd">            &quot;click&quot;,</span>
-<span class="sd">            summary_type=&quot;mean&quot;,</span>
-<span class="sd">            metrics=[</span>
-<span class="sd">                tm.Precision(task=&#39;binary&#39;),</span>
-<span class="sd">                tm.Recall(task=&#39;binary&#39;),</span>
-<span class="sd">                tm.Accuracy(task=&#39;binary&#39;),</span>
-<span class="sd">                tm.F1Score(task=&#39;binary&#39;)</span>
-<span class="sd">            ]</span>
+<span class="sd">        # Define the input module to process the tabular input features.</span>
+<span class="sd">        input_module = tr.TabularSequenceFeatures.from_schema(</span>
+<span class="sd">            schema,</span>
+<span class="sd">            max_sequence_length=max_sequence_length,</span>
+<span class="sd">            continuous_projection=d_model,</span>
+<span class="sd">            aggregation=&quot;concat&quot;,</span>
+<span class="sd">            masking=None,</span>
+<span class="sd">        )</span>
+
+<span class="sd">        # Define XLNetConfig class and set default parameters for HF XLNet config.</span>
+<span class="sd">        transformer_config = tr.XLNetConfig.build(</span>
+<span class="sd">            d_model=d_model, n_head=4, n_layer=2, total_seq_length=max_sequence_length</span>
+<span class="sd">        )</span>
+
+<span class="sd">        # Define the model block including: inputs, masking, projection and transformer block.</span>
+<span class="sd">        body = tr.SequentialBlock(</span>
+<span class="sd">            input_module,</span>
+<span class="sd">            tr.MLPBlock([64]),</span>
+<span class="sd">            tr.TransformerBlock(</span>
+<span class="sd">                transformer_config,</span>
+<span class="sd">                masking=input_module.masking</span>
+<span class="sd">            )</span>
+<span class="sd">        )</span>
+
+<span class="sd">        # Define a head with BinaryClassificationTask.</span>
+<span class="sd">        head = tr.Head(</span>
+<span class="sd">            body,</span>
+<span class="sd">            tr.BinaryClassificationTask(</span>
+<span class="sd">                &quot;click&quot;,</span>
+<span class="sd">                summary_type=&quot;mean&quot;,</span>
+<span class="sd">                metrics=[</span>
+<span class="sd">                    tm.Precision(task=&#39;binary&#39;),</span>
+<span class="sd">                    tm.Recall(task=&#39;binary&#39;),</span>
+<span class="sd">                    tm.Accuracy(task=&#39;binary&#39;),</span>
+<span class="sd">                    tm.F1Score(task=&#39;binary&#39;)</span>
+<span class="sd">                ]</span>
+<span class="sd">            ),</span>
+<span class="sd">            inputs=input_module,</span>
 <span class="sd">        )</span>
 
 <span class="sd">    Parameters</span>
